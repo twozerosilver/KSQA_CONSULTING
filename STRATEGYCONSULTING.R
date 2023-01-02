@@ -54,7 +54,7 @@ library(readxl)
 
 setwd("C:\\Users\\Administrator\\OneDrive\\data\\dobby\\dobby")
 
-consul <- read_excel("exam.xlsx", col_names = F)
+consul <- read_excel("operst.xlsx", col_names = F)
 consul
 
 
@@ -86,12 +86,13 @@ inspect(corpus_nv[1:5])
 
 
 
-
-
+corpus_txt <- gsub("c","",consul_txt)
 ############### 단어 선별 #####################
 
 ## PlainTextDocument 함수를 이용하여 myCorpus를 일반문서로 변경
-consul_txt <- tm_map(corpus_nv, PlainTextDocument) 
+consul_txt <- tm_map(corpus_nv, PlainTextDocument)
+
+
 
 ## TermDocumentMatrix() : 일반텍스트문서를 대상으로 단어 선별
 # 단어길이 2개 이상인 단어만 선별 -> matrix 변경
@@ -124,66 +125,3 @@ wordcloud2(word.df,
            minRotation=-pi/6, 
            maxRotation=-pi/6,
            rotateRatio=1)
-
-
-
-
-
-##########################################################################################################
-
-corpus <- consul_nv[nchar(corpus_noun2) < 5]
-corpus <- consul_nv[nchar(consul_noun2) > 1]
-
-
-corpus_d <- sort(table(corpus), decreasing = T)
-corpus200 <- head(corpus_d, 200)
-corpus200
-
-
-############# 불용어 처리 #############
-
-sort(consul_nv, decreasing=T)
-
-consul_n2 <- gsub("함","",consul_n) 
-consul_n2 <- gsub("것","",consul_n) 
-consul_n2 <- gsub("한","",consul_n) 
-consul_n2 <- gsub("등","",consul_n) 
-consul_n2 <- gsub("음","",consul_n) 
-consul_n2 <- gsub("할","",consul_n) 
-consul_n2 <- gsub("하","",consul_n) 
-consul_n2 <- gsub("적","",consul_n) 
-consul_n2 <- gsub("되","",consul_n) 
-consul_n2 <- gsub("있","",consul_n) 
-consul_n2 <- gsub("등","",consul_n) 
-consul_n2 <- gsub("됨","",consul_n) 
-consul_n2 <- gsub("해","",consul_n) 
-
-
-sort()
-
-
-
-
-
-############ 단어 빈도수 구하기 #############
-
-wordResult <- sort(rowSums(consul.df), decreasing=TRUE) ## 빈도수로 내림차순 정렬
-wordResult200 <- head(wordResult,200)
-wordResult200
-
-############ 워드클라우드 생성 ##############
-
-consul_name <- names(wordResult200) # 단어 이름 추출(빈도수 이름) 
-wordcloud2(consul_name) # 단어구름 시각화 
-
-############ 단어 선별 #############
-
-
-
-
-wordcloud2(corpus200)
-
-wordcloud2(corpus200,
-           size=2,
-           color='random-light',
-           shape='circle')
